@@ -1,13 +1,13 @@
-extends Node2D
+extends CharacterBody2D
 
-var speed := 100.0
+var speed := 1000.0
 var dash_speed = 800
 var direction: Vector2
-var velocity: Vector2
-var acceleration: float = 2
+var acceleration: float = 10
 var movement_input: Vector2
 var lambda = 1
-var deacceleration = 10.0
+var deacceleration = 5
+
 
 var dash_timer = 0
 
@@ -26,7 +26,9 @@ func _process(delta: float) -> void:
 	
 	update_velocity(0,delta)
 	update_velocity(1,delta)
-	position +=  velocity
+	
+	print(velocity)
+	move_and_slide()
 	
 	position = position.clamp(Vector2.ZERO, Vector2(1920,1080))
 
@@ -48,3 +50,7 @@ func update_velocity(index, delta):
 	velocity[index] += movement
 	
 	
+
+
+func _on_character_body_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+	print(viewport, event, shape_idx)
