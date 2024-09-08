@@ -1,12 +1,13 @@
 extends Node2D
 
-var speed := 200.0
+var speed := 100.0
 var dash_speed = 800
 var direction: Vector2
 var velocity: Vector2
-var acceleration: Vector2
+var acceleration: float = 2
 var movement_input: Vector2
 var lambda = 1
+var deacceleration = 10.0
 
 var dash_timer = 0
 
@@ -15,7 +16,7 @@ func _ready() -> void:
 	direction = Vector2.ZERO
 	velocity = Vector2.ZERO
 	movement_input = Vector2.ZERO
-	acceleration = Vector2(0.2,0.2)
+	
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -33,19 +34,17 @@ func get_movement_input() -> void:
 	movement_input = Vector2(
 		int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left")),
 		int(Input.is_action_pressed("move_down")) - int(Input.is_action_pressed("move_up"))
-	).normalized()
+	)
 
 func update_velocity(index, delta):
-	if abs(velocity[index]) < speed and abs(movement_input[index]) != 0:
-		velocity[index] += movement_input[index] * acceleration[index] * speed * delta
-	elif abs(movement_input[index]) != 0:
-		clampf(velocity[index], -speed, speed)
-	elif  velocity[index] < -speed and abs(movement_input[index]) != 0:
-		velocity[index] = -speed
-	elif abs(velocity[index]) > 0 and movement_input[index] == 0:
-		if abs(velocity[index]) < lambda:
-			velocity[index] = 0
-		elif velocity[index] > 0:
-			velocity[index] = max(velocity[index] -acceleration[index] * speed * 1.5 * delta, 0)
-		elif velocity[index] <0:
-			velocity[index] = min(velocity[index] + acceleration[index] * speed * 1.5 * delta, 0)
+	var target_velocity = speed * movement_input[index]
+	
+	var velocity_diferential = target_velocity - velocity[index]
+	
+	var acceleration_rate = acceleration if abs(target_velocity) > 0.1 else deacceleration
+	
+	var movement = velocity_diferential * acceleration_rate * delta
+	
+	velocity[index] += movement
+	
+	
