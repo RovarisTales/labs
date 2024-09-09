@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3 uid="uid://60lm3embb8y8"]
+
+[ext_resource type="Theme" uid="uid://bdkrvg8phmrnh" path="res://assets/button.tres" id="1_1d1ph"]
+
+[node name="Shop" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.073
+anchor_top = 0.113
+anchor_right = 0.073
+anchor_bottom = 0.113
+offset_left = 163.84
+offset_top = 653.96
+offset_right = 400.84
+offset_bottom = 810.96
+theme = ExtResource("1_1d1ph")
+text = "SHOP
+"
+
+[node name="Button2" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1288.0
+offset_top = 504.0
+offset_right = 1528.0
+offset_bottom = 613.0
+theme = ExtResource("1_1d1ph")
+text = "Buy"

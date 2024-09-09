@@ -1,13 +1,14 @@
 [gd_scene load_steps=4 format=3 uid="uid://dqda21ql5x8o"]
 
-[ext_resource type="Texture2D" uid="uid://0yv6m56sc7tc" path="res://icon.svg" id="1_khwbn"]
+[ext_resource type="Texture2D" uid="uid://on20ypxie217" path="res://assets/wallMetal.png" id="1_ieyhl"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_80fjp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nfgft"]
-size = Vector2(4, 38)
+size = Vector2(32, 32)
 
 [node name="wall" type="StaticBody2D"]
+scale = Vector2(2, 2)
 physics_material_override = SubResource("PhysicsMaterial_80fjp")
 metadata/_edit_group_ = true
 
@@ -16,7 +17,5 @@ shape = SubResource("RectangleShape2D_nfgft")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(5.96046e-08, 0)
-scale = Vector2(0.03125, 0.304688)
-texture = ExtResource("1_khwbn")
+texture = ExtResource("1_ieyhl")
 metadata/_edit_group_ = true

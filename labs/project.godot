@@ -11,13 +11,21 @@ config_version=5
 [application]
 
 config/name="labs"
-config/features=PackedStringArray("4.3", "Forward Plus")
+config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+
+[dotnet]
+
+project/assembly_name="labs"
+
+[gui]
+
+theme/custom_font="res://assets/Pixeled.ttf"
 
 [input]
 
@@ -55,3 +63,7 @@ deaccelerate={
 [physics]
 
 2d/default_gravity_vector=Vector2(0, 0)
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
