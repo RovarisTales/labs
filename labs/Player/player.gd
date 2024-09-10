@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-var speed := 1000.0
+var speed := 400.0
 var dash_speed = 800
 var direction: Vector2
 var acceleration: float = 10.0
@@ -22,6 +22,9 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	
+	pass
+
+func _physics_process(delta: float) -> void:
 	get_movement_input()
 	
 	update_velocity(0,delta)

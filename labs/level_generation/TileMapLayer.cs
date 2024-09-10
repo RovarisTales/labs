@@ -51,48 +51,17 @@ class Graph {
 
 public partial class TileMapLayer : Godot.TileMapLayer
 {
-	const int SIZE = 8;
+	const int SIZE = 50;
 	Graph graph = new();
 
 	Random rand = new();
 	public override void _Ready()
 	{
-		for (int i = 0; i< SIZE; i++){
-			for (int j = 0; j< SIZE; j++){
-				graph.AddVertex((i,j));
-			}
-		}
+		createGraph();
 
-		var adjacencyList = graph.GetAdjacencyList();
-
-		foreach(var x in adjacencyList) {
-			int a = x.Key.Item1;
-			int b = x.Key.Item2;
-
-			int ap = a + 1;
-			int bp = b + 1;
-			int am = a - 1;
-			int bm = b - 1;
-
-			if (!(ap >= SIZE)){
-				graph.AddEdge(x.Key, (ap,b), rand.NextDouble());
-			}
-			if (!(bm < 0 )){
-				graph.AddEdge(x.Key, (a,bm), rand.NextDouble());
-			}
-			if (!(bp >= SIZE)){
-				graph.AddEdge(x.Key, (a,bp), rand.NextDouble());
-			}
-			if (!(am < 0)){
-				graph.AddEdge(x.Key, (am,b), rand.NextDouble());
-			}
-
-		}
-
-		var start = (0, 0);  // Starting position, for example
+		var start = (0, 0);
 		var (distances, paths) = Dijkstra(graph, start);
 
-		
 
 		List<(int,int)> maze = new();
 		for (int i = 0; i< SIZE * 2 + 1; i++){
@@ -136,9 +105,18 @@ public partial class TileMapLayer : Godot.TileMapLayer
 				maze.Remove(cell_to_remove);
 			}
 		}
+
+		var target = ( SIZE-1, SIZE-1);
+
+		var path_to_exit = getPathGraph(target, paths);
+
 		foreach (var cell in maze){
-			this.SetCell(new Vector2I(cell.Item1,cell.Item2), 0, Vector2I.Zero, 1);
+			this.SetCell(new Vector2I(cell.Item1,cell.Item2), 1, Vector2I.Zero, 1);
 			
+		}
+
+		foreach(var path in path_to_exit){
+			this.SetCell(new Vector2I(path.Item1 * 2 + 1,path.Item2 * 2 + 1), 1, Vector2I.Zero, 2);
 		}
 	}
 
@@ -181,6 +159,50 @@ public partial class TileMapLayer : Godot.TileMapLayer
 		}
 
 		return (distances, previous);
+	}
+
+	private void createGraph(){
+		for (int i = 0; i< SIZE; i++){
+			for (int j = 0; j< SIZE; j++){
+				graph.AddVertex((i,j));
+			}
+		}
+
+		var adjacencyList = graph.GetAdjacencyList();
+
+		foreach(var x in adjacencyList) {
+			int a = x.Key.Item1;
+			int b = x.Key.Item2;
+
+			int ap = a + 1;
+			int bp = b + 1;
+			int am = a - 1;
+			int bm = b - 1;
+
+			if (!(ap >= SIZE)){
+				graph.AddEdge(x.Key, (ap,b), rand.NextDouble());
+			}
+			if (!(bm < 0 )){
+				graph.AddEdge(x.Key, (a,bm), rand.NextDouble());
+			}
+			if (!(bp >= SIZE)){
+				graph.AddEdge(x.Key, (a,bp), rand.NextDouble());
+			}
+			if (!(am < 0)){
+				graph.AddEdge(x.Key, (am,b), rand.NextDouble());
+			}
+
+		}
+
+	}
+	private List<(int,int)> getPathGraph((int,int)? target, Dictionary<(int, int), (int, int)?> paths){
+		var parent = target;
+		List<(int,int)> path_to_exit = new();
+		while(parent != null){
+			path_to_exit.Add(((int, int))parent);
+			parent = paths.ContainsKey(parent.Value) ? paths[parent.Value] : null;		
+		}
+		return path_to_exit;
 	}
 
 }

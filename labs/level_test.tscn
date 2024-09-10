@@ -1,17 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://dssd27nqpw0ur"]
+[gd_scene load_steps=5 format=3 uid="uid://dssd27nqpw0ur"]
 
 [ext_resource type="Script" path="res://level_test.gd" id="1_1b2jc"]
-[ext_resource type="Script" path="res://TileMapLayer.cs" id="3_7c8fr"]
+[ext_resource type="PackedScene" uid="uid://bdulcmo4vm7u8" path="res://Player/player.tscn" id="2_78sr8"]
+[ext_resource type="Script" path="res://level_generation/TileMapLayer.cs" id="3_7c8fr"]
 [ext_resource type="TileSet" uid="uid://n3qp8oq1g0m0" path="res://assets/test_tile_set.tres" id="4_u6xlo"]
 
 [node name="Level test" type="Node2D"]
 script = ExtResource("1_1b2jc")
+player_scene = ExtResource("2_78sr8")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
+z_index = -10
 tile_set = ExtResource("4_u6xlo")
 script = ExtResource("3_7c8fr")
-
-[node name="TileTimer" type="Timer" parent="."]
-autostart = true
-
-[connection signal="timeout" from="TileTimer" to="." method="_on_tile_timer_timeout"]

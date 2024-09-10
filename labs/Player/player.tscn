@@ -1,12 +1,13 @@
 [gd_scene load_steps=4 format=3 uid="uid://bdulcmo4vm7u8"]
 
-[ext_resource type="Script" path="res://player.gd" id="1_0esq7"]
-[ext_resource type="Texture2D" uid="uid://dg1b1vgxag8a0" path="res://assets/playerGrey_walk1.png" id="1_fbhy8"]
+[ext_resource type="Script" path="res://Player/player.gd" id="1_0esq7"]
+[ext_resource type="Texture2D" uid="uid://dawgi71f7yg7p" path="res://assets/playerconcept.png" id="2_f4w3u"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1n183"]
-radius = 54.0093
+radius = 16.0
 
 [node name="Player" type="CharacterBody2D"]
+z_index = 1
 motion_mode = 1
 slide_on_ceiling = false
 floor_stop_on_slope = false
@@ -16,16 +17,11 @@ script = ExtResource("1_0esq7")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -14)
 shape = SubResource("CircleShape2D_1n183")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_fbhy8")
+texture = ExtResource("2_f4w3u")
 metadata/_edit_group_ = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
-limit_left = 0
-limit_top = 0
-limit_right = 6000
-limit_bottom = 4000
