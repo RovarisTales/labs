@@ -51,12 +51,27 @@ class Graph {
 
 public partial class TileMapLayer : Godot.TileMapLayer
 {
-	const int SIZE = 50;
+	private Timer bomb_timer;
+	const int SIZE = 8;
+
+	private Godot.TileMapLayer path_layer;
+
+	
 	Graph graph = new();
 
 	Random rand = new();
 	public override void _Ready()
 	{
+		bomb_timer = GetNode<Timer>("BombTimer");
+
+		bomb_timer.WaitTime = 5;
+
+		bomb_timer.Timeout += () => createBomb();
+
+		path_layer = GetNode<Godot.TileMapLayer>("PathLayer");
+
+		SignalBus.Instance.BombExploded += () => Explode();
+
 		createGraph();
 
 		var start = (0, 0);
@@ -116,8 +131,28 @@ public partial class TileMapLayer : Godot.TileMapLayer
 		}
 
 		foreach(var path in path_to_exit){
-			this.SetCell(new Vector2I(path.Item1 * 2 + 1,path.Item2 * 2 + 1), 1, Vector2I.Zero, 2);
+			path_layer.SetCell(new Vector2I(path.Item1 * 2 + 1,path.Item2 * 2 + 1), 1, Vector2I.Zero, 2);
 		}
+
+		bomb_timer.Start();
+
+
+	}
+
+	private void createBomb(){
+		var x = rand.Next(1,SIZE);
+		var y = rand.Next(1, SIZE);
+		var bomb_position = new Vector2I(x % SIZE * 2 + 1, y % SIZE * 2 + 1);
+
+		if (this.GetCellSourceId(bomb_position) == -1){
+			this.SetCell(bomb_position, 1, Vector2I.Zero, 3);
+		}
+
+
+	}
+
+	private void Explode(){
+		GD.Print("It works");
 	}
 
 	private (Dictionary<(int, int), double>, Dictionary<(int, int), (int, int)?>) Dijkstra(Graph graph, (int, int) start)

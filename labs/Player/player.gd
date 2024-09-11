@@ -49,3 +49,8 @@ func update_velocity(index, delta):
 	
 	velocity[index] += movement
 	
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	print("colision body")
+	print(body.get_groups())

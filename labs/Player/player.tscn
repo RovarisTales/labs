@@ -7,7 +7,6 @@
 radius = 16.0
 
 [node name="Player" type="CharacterBody2D"]
-z_index = 1
 motion_mode = 1
 slide_on_ceiling = false
 floor_stop_on_slope = false
@@ -16,7 +15,7 @@ platform_wall_layers = 1
 script = ExtResource("1_0esq7")
 metadata/_edit_group_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Player"]]
 shape = SubResource("CircleShape2D_1n183")
 metadata/_edit_group_ = true
 

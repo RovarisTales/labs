@@ -1,13 +1,15 @@
-[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://n3qp8oq1g0m0"]
+[gd_resource type="TileSet" load_steps=6 format=3 uid="uid://n3qp8oq1g0m0"]
 
 [ext_resource type="PackedScene" uid="uid://dqda21ql5x8o" path="res://Walls/wall.tscn" id="1_l5ho6"]
 [ext_resource type="PackedScene" uid="uid://bpv0m57ahwh5v" path="res://Walls/path.tscn" id="2_kohua"]
+[ext_resource type="PackedScene" uid="uid://cdqvprqefqgso" path="res://Player/Items/Bomb.tscn" id="3_qg2f7"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qhx87"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_5ska1"]
 scenes/1/scene = ExtResource("1_l5ho6")
 scenes/2/scene = ExtResource("2_kohua")
+scenes/3/scene = ExtResource("3_qg2f7")
 
 [resource]
 tile_size = Vector2i(64, 64)

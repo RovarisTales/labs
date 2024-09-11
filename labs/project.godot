@@ -13,6 +13,10 @@ config_version=5
 config/name="labs"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 
+[autoload]
+
+SignalBus="*res://SignalBus.tscn"
+
 [display]
 
 window/size/viewport_width=1920
