@@ -17,6 +17,7 @@ tile_set = ExtResource("3_yr5my")
 script = ExtResource("4_pp0f7")
 
 [node name="BombTimer" type="Timer" parent="TileMapLayer"]
+one_shot = true
 
 [node name="PathLayer" type="TileMapLayer" parent="TileMapLayer"]
 tile_set = ExtResource("3_yr5my")

@@ -1,0 +1,68 @@
+[gd_scene load_steps=5 format=3 uid="uid://60lm3embb8y8"]
+
+[ext_resource type="Texture2D" uid="uid://on20ypxie217" path="res://assets/wallMetal.png" id="1_7s1g4"]
+[ext_resource type="Theme" uid="uid://bdkrvg8phmrnh" path="res://assets/button.tres" id="2_w2trs"]
+[ext_resource type="Script" path="res://play_button.gd" id="3_srchc"]
+[ext_resource type="Script" path="res://shop_button.gd" id="4_kua2m"]
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("1_7s1g4")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -420.0
+offset_top = 150.0
+offset_right = 420.0
+offset_bottom = 318.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="AspectRatioContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 60
+text = "ESCAPE THE LABS"
+
+[node name="AspectRatioContainer2" type="AspectRatioContainer" parent="."]
+layout_mode = 0
+offset_left = 384.0
+offset_top = 528.0
+offset_right = 808.0
+offset_bottom = 712.0
+ratio = 2.7271
+
+[node name="PlayButton" type="Button" parent="AspectRatioContainer2"]
+layout_mode = 2
+theme = ExtResource("2_w2trs")
+text = "PLAY"
+script = ExtResource("3_srchc")
+
+[node name="AspectRatioContainer3" type="AspectRatioContainer" parent="."]
+layout_mode = 0
+offset_left = 1112.0
+offset_top = 528.0
+offset_right = 1536.0
+offset_bottom = 712.0
+ratio = 2.7271
+
+[node name="ShopButton" type="Button" parent="AspectRatioContainer3"]
+layout_mode = 2
+theme = ExtResource("2_w2trs")
+text = "SHOP"
+script = ExtResource("4_kua2m")
+
+[connection signal="pressed" from="AspectRatioContainer2/PlayButton" to="AspectRatioContainer2/PlayButton" method="_on_pressed"]
+[connection signal="pressed" from="AspectRatioContainer3/ShopButton" to="AspectRatioContainer3/ShopButton" method="_on_pressed"]

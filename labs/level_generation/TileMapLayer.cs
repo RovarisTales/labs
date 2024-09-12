@@ -1,7 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using System.Collections.Immutable;
 
 
 class Graph {
@@ -54,6 +54,17 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	private Timer bomb_timer;
 	const int SIZE = 8;
 
+	readonly List<Vector2I> EXPLOSION_TILES = new List<Vector2I> {
+		new Vector2I(1, 1),
+		new Vector2I(1, 0),
+		new Vector2I(1, -1),
+		new Vector2I(0, 1),
+		new Vector2I(0, -1),
+		new Vector2I(-1, -1),
+		new Vector2I(-1, 1),
+		new Vector2I(-1, 0)
+	};
+	
 	private Godot.TileMapLayer path_layer;
 
 	
@@ -70,9 +81,9 @@ public partial class TileMapLayer : Godot.TileMapLayer
 
 		path_layer = GetNode<Godot.TileMapLayer>("PathLayer");
 
-		SignalBus.Instance.BombExploded += () => Explode();
+		SignalBus.Instance.BombExploded += pos => Explode(pos);
 
-		createGraph();
+		CreateGraph();
 
 		var start = (0, 0);
 		var (distances, paths) = Dijkstra(graph, start);
@@ -123,7 +134,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 
 		var target = ( SIZE-1, SIZE-1);
 
-		var path_to_exit = getPathGraph(target, paths);
+		var path_to_exit = GetPathGraph(target, paths);
 
 		foreach (var cell in maze){
 			this.SetCell(new Vector2I(cell.Item1,cell.Item2), 1, Vector2I.Zero, 1);
@@ -135,7 +146,6 @@ public partial class TileMapLayer : Godot.TileMapLayer
 		}
 
 		bomb_timer.Start();
-
 
 	}
 
@@ -151,11 +161,17 @@ public partial class TileMapLayer : Godot.TileMapLayer
 
 	}
 
-	private void Explode(){
-		GD.Print("It works");
+	private void Explode(Vector2 pos){
+		var explosion_spot = new Vector2I((int)Math.Floor(pos.X / 64),(int) Math.Floor(pos.Y / 64));
+		
+		foreach(Vector2I v in EXPLOSION_TILES){
+			this.SetCell(explosion_spot + v, -1, Vector2I.Zero, -1);
+		}
+		this.SetCell(explosion_spot, -1, Vector2I.Zero, -1);
+		
 	}
 
-	private (Dictionary<(int, int), double>, Dictionary<(int, int), (int, int)?>) Dijkstra(Graph graph, (int, int) start)
+	private static (Dictionary<(int, int), double>, Dictionary<(int, int), (int, int)?>) Dijkstra(Graph graph, (int, int) start)
 	{
 		var distances = new Dictionary<(int, int), double>();
 		var previous = new Dictionary<(int, int), (int, int)?>();
@@ -196,7 +212,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 		return (distances, previous);
 	}
 
-	private void createGraph(){
+	private void CreateGraph(){
 		for (int i = 0; i< SIZE; i++){
 			for (int j = 0; j< SIZE; j++){
 				graph.AddVertex((i,j));
@@ -230,7 +246,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 		}
 
 	}
-	private List<(int,int)> getPathGraph((int,int)? target, Dictionary<(int, int), (int, int)?> paths){
+	private static List<(int,int)> GetPathGraph((int,int)? target, Dictionary<(int, int), (int, int)?> paths){
 		var parent = target;
 		List<(int,int)> path_to_exit = new();
 		while(parent != null){

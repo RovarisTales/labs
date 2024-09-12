@@ -1,3 +1,9 @@
-[gd_scene format=3 uid="uid://bnbhmilfnvvcl"]
+[gd_scene load_steps=3 format=3 uid="uid://bnbhmilfnvvcl"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_jw1eu"]
+[ext_resource type="PackedScene" uid="uid://60lm3embb8y8" path="res://HUD.tscn" id="2_2ayp7"]
 
 [node name="Main" type="Node"]
+script = ExtResource("1_jw1eu")
+
+[node name="HUD" parent="." instance=ExtResource("2_2ayp7")]
